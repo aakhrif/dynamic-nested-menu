@@ -43,11 +43,11 @@ import {
   MatTooltipModule
 } from "@angular/material";
 import { AppComponent } from "./app.component";
-import { FlexLayoutModule } from "@angular/flex-layout";
+// import { FlexLayoutModule } from "@angular/flex-layout";
 import { MenuItemComponent } from "./menu-item/menu-item.component";
-import { MenuNestedComponent } from './menu-nested/menu-nested.component';
-import { MenuSelectComponent } from './menu-select/menu-select.component';
-import { ItemsService } from './items.service';
+import { MenuNestedComponent } from "./menu-nested/menu-nested.component";
+import { MenuSelectComponent } from "./menu-select/menu-select.component";
+import { ItemsService } from "./items.service";
 
 /**
  * NgModule that includes all Material modules that are required.
@@ -104,10 +104,15 @@ export class MaterialModule {}
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule
+    BrowserAnimationsModule
+    // FlexLayoutModule
   ],
-  declarations: [AppComponent, MenuItemComponent, MenuNestedComponent, MenuSelectComponent],
+  declarations: [
+    AppComponent,
+    MenuItemComponent,
+    MenuNestedComponent,
+    MenuSelectComponent
+  ],
   bootstrap: [AppComponent],
   providers: [ItemsService]
 })
