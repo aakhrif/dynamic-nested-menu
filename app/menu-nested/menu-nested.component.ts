@@ -14,8 +14,8 @@ export class MenuNestedComponent implements OnInit {
 
   ngOnInit(): void {
     this._itemsService.menuItems.subscribe(menuItems => {
-      console.log(`event returned data: ${menuItems}`);
-      console.log(menuItems);
+      // console.log(`event returned data: ${menuItems}`);
+      // console.log(menuItems);
       this.items = menuItems;
     });
 
