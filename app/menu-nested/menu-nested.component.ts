@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { ItemsService } from "../items.service";
+import { MenuItem } from "../nav-item";
 
 @Component({
-  selector: 'app-menu-nested',
-  templateUrl: './menu-nested.component.html',
-  styleUrls: ['./menu-nested.component.scss']
+  selector: "app-menu-nested",
+  templateUrl: "./menu-nested.component.html",
+  styleUrls: ["./menu-nested.component.scss"]
 })
 export class MenuNestedComponent implements OnInit {
+  items: MenuItem[];
+  constructor(private _itemsService: ItemsService) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
+    this._itemsService.menuItems.subscribe(menuItems => {
+      console.log(`event returned data: ${menuItems}`);
+      console.log(menuItems);
+      this.items = menuItems;
+    });
   }
-
 }

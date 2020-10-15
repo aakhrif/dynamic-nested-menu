@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 import { VERSION } from "@angular/material";
-import { NavItem } from "./nav-item";
-import data from "./data.json";
 
 @Component({
   selector: "material-app",
@@ -11,5 +9,4 @@ import data from "./data.json";
 })
 export class AppComponent {
   version = VERSION;
-  items: NavItem[] = data;
 }

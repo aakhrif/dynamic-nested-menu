@@ -22,6 +22,7 @@ export class ItemsService {
   }
 
   loadItems(choice: string) {
+    console.log(`event choosed: ${choice}`);
     this._selectedValue.next(choice);
     return this._menuItems.next(data);
   }
