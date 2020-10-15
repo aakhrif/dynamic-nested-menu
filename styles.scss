@@ -1,6 +1,10 @@
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css'; 
+@import '~@angular/material/theming';
 
-body { 
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
+@include mat-core();
+$app-dark-primary: mat-palette($mat-purple);
+$app-dark-accent: mat-palette($mat-green, A200, A100, A400);
+$app-dark-theme: mat-dark-theme($app-dark-primary, $app-dark-accent);
+body {
+  @include angular-material-theme($app-dark-theme);
 }

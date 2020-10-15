@@ -45,6 +45,9 @@ import {
 import { AppComponent } from "./app.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MenuItemComponent } from "./menu-item/menu-item.component";
+import { MenuNestedComponent } from './menu-nested/menu-nested.component';
+import { MenuSelectComponent } from './menu-select/menu-select.component';
+import { ItemsService } from './items.service';
 
 /**
  * NgModule that includes all Material modules that are required.
@@ -104,8 +107,8 @@ export class MaterialModule {}
     BrowserAnimationsModule,
     FlexLayoutModule
   ],
-  declarations: [AppComponent, MenuItemComponent],
+  declarations: [AppComponent, MenuItemComponent, MenuNestedComponent, MenuSelectComponent],
   bootstrap: [AppComponent],
-  providers: []
+  providers: [ItemsService]
 })
 export class AppModule {}

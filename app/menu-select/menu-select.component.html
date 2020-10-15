@@ -1,0 +1,7 @@
+<mat-form-field appearance="fill">
+	<mat-label>Select Menu options</mat-label>
+	<mat-select [(ngModel)]="selectedValue" (selectionChange)="sendMenuChoice($event)">
+		<mat-option value="animals">Animals</mat-option>
+		<mat-option value="persons">Persons</mat-option>
+	</mat-select>
+</mat-form-field>
