@@ -23,10 +23,7 @@ export class ItemsService {
   }
 
   loadItems(choice: string) {
-    console.log(`event choosed: ${choice}`);
-    console.log(this.getItems(0, [], choice));
     this._selectedValue.next(choice);
-    //return this._menuItems.next(data);
     return this._menuItems.next(this.getItems(0, [], choice));
   }
 
@@ -34,7 +31,7 @@ export class ItemsService {
    *  Generate randomly some mock data, persons (employees), animals
    * randomly return top level
    * **/
-  getItems(limit: number, items: any[], choice: string): any[] {
+  private getItems(limit: number, items: any[], choice: string): any[] {
     // build randomly some first level items
     var rdm = this.getRandomInt(0, 5);
     limit++;
@@ -42,9 +39,6 @@ export class ItemsService {
     if (rdm === 0 && limit <= 2) {
       rdm = 1;
     }
-    // console.log("rdm" + rdm);
-    // console.log("limit" + limit);
-    // console.log(items);
     if (limit < 4) {
       if (0 !== rdm) {
         let item: [] = [];
@@ -55,44 +49,47 @@ export class ItemsService {
         return this.getItems(limit, items, choice);
       }
     }
-    //return items;
     return this.buildSubItems(0, items, [], choice);
   }
 
-  buildSubItems(
+  private buildSubItems(
     limit: number,
     items: any[],
     subItems: any[],
     choice: string
   ): any[] {
     // foreach item build randomly subitems
+    items = items.concat(subItems);
     limit++;
     console.log(limit);
     let item: [] = [];
-    for (var i in items) {
-      item["name"] =
-        choice == "persons" ? this.chance.name() : this.chance.animal();
-      item["subItems"] = [];
-
-      if (Math.random() >= 0.5) {
-        items[i].subItems.push(item);
-        subItems.push(item);
-      }
+    item["name"] = this.getRandomName(choice);
+    item["subItems"] = this.getRandomItem(choice);
+    items = subItems.length > 0 ? subItems : items;
+    for (var index = 0; index < items.length; index++) {
+      item["name"] = this.getRandomName(choice);
+      item["subItems"] = this.getRandomItem(choice);
+      items[index].subItems.push(item);
     }
-    items = items.concat(subItems);
-    if (limit < 2) {
+    subItems.push(item);
+    if (limit < 5) {
       this.buildSubItems(limit, items, subItems, choice);
     }
-    console.log(limit);
-    // build sub of subs
-    // if (limit < 3) {
-    //   this.buildSubItems(limit, items, choice);
-    // }
-    // items;
     return items;
   }
 
-  getRandomInt(min, max) {
+  private getRandomName(choice) {
+    return choice == "persons" ? this.chance.name() : this.chance.animal();
+  }
+
+  private getRandomItem(choice) {
+    let item: [] = [];
+    item["name"] = this.getRandomName(choice);
+    item["subItems"] = [];
+    return item;
+  }
+
+  private getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
