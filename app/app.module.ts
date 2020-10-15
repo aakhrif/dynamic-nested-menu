@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 
 import { A11yModule } from "@angular/cdk/a11y";
 import { BidiModule } from "@angular/cdk/bidi";
@@ -46,7 +45,6 @@ import {
 import { AppComponent } from "./app.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MenuItemComponent } from "./menu-item/menu-item.component";
-import { AppRoutingModule } from "./app-routing.module";
 
 /**
  * NgModule that includes all Material modules that are required.
@@ -104,17 +102,9 @@ export class MaterialModule {}
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
-    AppRoutingModule
+    FlexLayoutModule
   ],
-  declarations: [
-    AppComponent,
-    MenuItemComponent,
-    FirstComponent,
-    SecondComponent,
-    ThirdComponent,
-    FourthComponent
-  ],
+  declarations: [AppComponent, MenuItemComponent],
   bootstrap: [AppComponent],
   providers: []
 })
