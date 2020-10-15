@@ -55,28 +55,30 @@ export class ItemsService {
   private buildSubItems(
     limit: number,
     items: any[],
-    subItems: any[],
+    currentItems: any[],
     choice: string
   ): any[] {
     // foreach item build randomly subitems
-    items = items.concat(subItems);
+    //debugger;
+    items = items.concat(currentItems);
     limit++;
     console.log(limit);
-    let item: [] = [];
-    item["name"] = this.getRandomName(choice);
-    item["subItems"] = []; //this.getRandomItem(choice);
-    items = subItems.length > 0 ? subItems : items;
+    debugger;
     for (var index = 0; index < items.length; index++) {
-      item["name"] = this.getRandomName(choice);
-      item["subItems"] = this.getRandomItem(choice);
-      console.log(item);
-      console.log(items[index]);
-      //debugger;
-      items[index].subItems.push(item);
+      items[index].subItems.push(this.getRandomItem(choice));
+      for (var i = 0; i < items[index].subItems.length; i++) {
+        console.log(items[index].subItems[i]);
+        debugger;
+        items[index].subItems[i].push(this.getRandomItem(choice));
+      }
     }
-    subItems.push(item);
+    currentItems = items;
+    console.log(currentItems);
+    //items.forEach(item => item.subItems.push(this.getRandomItem(choice)));
+    console.log(items);
+
     if (limit < 5) {
-      this.buildSubItems(limit, items, subItems, choice);
+      this.buildSubItems(limit, items, currentItems, choice);
     }
     //console.log(items);
     return items;
