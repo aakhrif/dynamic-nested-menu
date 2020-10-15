@@ -64,17 +64,21 @@ export class ItemsService {
     console.log(limit);
     let item: [] = [];
     item["name"] = this.getRandomName(choice);
-    item["subItems"] = this.getRandomItem(choice);
+    item["subItems"] = []; //this.getRandomItem(choice);
     items = subItems.length > 0 ? subItems : items;
     for (var index = 0; index < items.length; index++) {
       item["name"] = this.getRandomName(choice);
       item["subItems"] = this.getRandomItem(choice);
+      console.log(item);
+      console.log(items[index]);
+      //debugger;
       items[index].subItems.push(item);
     }
     subItems.push(item);
     if (limit < 5) {
       this.buildSubItems(limit, items, subItems, choice);
     }
+    //console.log(items);
     return items;
   }
 
