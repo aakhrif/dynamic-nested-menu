@@ -2,11 +2,12 @@ import { Injectable } from "@angular/core";
 import Chance from "chance";
 import { BehaviorSubject } from "rxjs";
 import data from "./data.json";
+import { MenuItem } from "./nav-item";
 
 @Injectable()
 export class ItemsService {
   private _selectedValue = new BehaviorSubject<string>("");
-  private _menuItems = new BehaviorSubject<[]>([]);
+  private _menuItems = new BehaviorSubject<any[]>([]);
   private chance: Chance.Chance;
 
   constructor() {
@@ -25,12 +26,13 @@ export class ItemsService {
     console.log(`event choosed: ${choice}`);
     console.log(this.getItems(0, [], choice));
     this._selectedValue.next(choice);
-    return this._menuItems.next(data);
+    //return this._menuItems.next(data);
+    return this._menuItems.next(this.getItems(0, [], choice));
   }
 
   /**
    *  Generate randomly some mock data, persons (employees), animals
-   * randomly return top level items between 2 and 5
+   * randomly return top level
    * **/
   getItems(limit: number, items: any[], choice: string): any[] {
     // build randomly some first level items
@@ -43,7 +45,7 @@ export class ItemsService {
     // console.log("rdm" + rdm);
     // console.log("limit" + limit);
     // console.log(items);
-    if (limit < 6) {
+    if (limit < 4) {
       if (0 !== rdm) {
         let item: [] = [];
         item["name"] =
@@ -54,23 +56,39 @@ export class ItemsService {
       }
     }
     //return items;
-    return this.buildSubItems(0, items, choice);
+    return this.buildSubItems(0, items, [], choice);
   }
 
-  buildSubItems(limit: number, items: any[], choice: string): any[] {
+  buildSubItems(
+    limit: number,
+    items: any[],
+    subItems: any[],
+    choice: string
+  ): any[] {
     // foreach item build randomly subitems
+    limit++;
+    console.log(limit);
     let item: [] = [];
     for (var i in items) {
       item["name"] =
         choice == "persons" ? this.chance.name() : this.chance.animal();
       item["subItems"] = [];
-      if (Math.random() >= 0.5) items[i].subItems.push(item);
+
+      if (Math.random() >= 0.5) {
+        items[i].subItems.push(item);
+        subItems.push(item);
+      }
+    }
+    items = items.concat(subItems);
+    if (limit < 2) {
+      this.buildSubItems(limit, items, subItems, choice);
     }
     console.log(limit);
     // build sub of subs
-    if (limit < 3) {
-      this.buildSubItems(limit++, items, choice);
-    }
+    // if (limit < 3) {
+    //   this.buildSubItems(limit, items, choice);
+    // }
+    // items;
     return items;
   }
 
