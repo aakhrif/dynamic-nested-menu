@@ -9,6 +9,7 @@ import { MenuItem } from "../nav-item";
 })
 export class MenuNestedComponent implements OnInit {
   items: MenuItem[];
+  selectedValue: string;
   constructor(private _itemsService: ItemsService) {}
 
   ngOnInit(): void {
@@ -16,6 +17,10 @@ export class MenuNestedComponent implements OnInit {
       console.log(`event returned data: ${menuItems}`);
       console.log(menuItems);
       this.items = menuItems;
+    });
+
+    this._itemsService.selectedValue.subscribe(selectedValue => {
+      this.selectedValue = selectedValue;
     });
   }
 }

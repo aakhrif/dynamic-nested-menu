@@ -1,8 +1,8 @@
-<div class="basic-container">
-	<mat-toolbar class="menu-bar mat-elevation-z1">
-		<span *ngFor="let item of items">
+<button mat-button [matMenuTriggerFor]="main_menu">{{ selectedValue }}</button>
+<mat-menu #main_menu="matMenu">
+	<ng-container *ngFor="let item of items">
       <!-- Handle branch node buttons here -->
-      <span *ngIf="item.subItems && item.subItems.length > 0">
+      <ng-container *ngIf="item.subItems && item.subItems.length > 0">
         <button
           mat-button
           [matMenuTriggerFor]="menu.childMenu"
@@ -11,13 +11,12 @@
           {{item.name}}
         </button>
         <app-menu-item #menu [items]="item.subItems"></app-menu-item>
-      </span>
-		<!-- Leaf node buttons here -->
-		<span *ngIf="!item.subItems || item.subItems.length === 0">
+      </ng-container>
+      <!-- Leaf node buttons here -->
+      <ng-container *ngIf="!item.subItems || item.subItems.length === 0">
         <button mat-button color="primary">
           {{item.name}}
         </button>
-      </span>
-		</span>
-	</mat-toolbar>
-</div>
+      </ng-container>
+	</ng-container>
+</mat-menu>
