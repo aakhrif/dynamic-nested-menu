@@ -10,13 +10,9 @@
         >
           {{item.name}}
         </button>
+			<!-- Directive to render subs of subs and so on -->
+			<!-- Leaf node buttons here -->
 			<app-menu-item #menu [items]="item.subItems"></app-menu-item>
-		</ng-container>
-		<!-- Leaf node buttons here -->
-		<ng-container *ngIf="!item.subItems || item.subItems.length === 0">
-			<button mat-menu-item color="primary">
-          {{item.name}}
-        </button>
 		</ng-container>
 	</ng-container>
 </mat-menu>

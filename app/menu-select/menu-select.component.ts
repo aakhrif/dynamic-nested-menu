@@ -11,6 +11,7 @@ export class MenuSelectComponent {
   constructor(private _itemsService: ItemsService) {}
 
   public sendMenuChoice($event): void {
+    // main trigger
     console.log($event);
     this._itemsService.loadItems(this.selectedValue);
   }
