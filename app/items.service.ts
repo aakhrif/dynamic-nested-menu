@@ -29,8 +29,8 @@ export class ItemsService {
   }
 
   /**
-   *  Generate randomly some mock data, persons (employees), animals
-   * randomly return top level
+   *  Generate randomly some mock data
+   *  persons (employees) sample data can present a hierarchy in a organisation
    * **/
   private getItems(limit: number, items: any[], choice: string): any[] {
     // build randomly some first level items
@@ -40,7 +40,7 @@ export class ItemsService {
     if (rdm === 0 && limit <= 2) {
       rdm = 1;
     }
-    if (limit < 3) {
+    if (limit < 4) {
       if (0 !== rdm) {
         let item: [] = [];
         item["name"] =
@@ -60,24 +60,35 @@ export class ItemsService {
     choice: string
   ): any[] {
     // foreach item build randomly subitems
-    items = items.concat(additionalItems);
+    let returnedItems = [];
+    items.forEach(item => {
+      item.subItems["name"] = this.getRandomName(choice);
+    });
+    returnedItems = items.concat(additionalItems);
     limit++;
     let item: [] = [];
-    for (var index = 0; index < items.length; index++) {
+    item["name"] = this.getRandomName(choice);
+    item["subItems"] = this.getRandomItem(choice);
+    items.push(item);
+    let iteraTelength = items.length - this.getRandomInt(1, items.length - 1);
+    for (var index = 0; index < iteraTelength; index++) {
       item["name"] = this.getRandomName(choice);
       item["subItems"] = this.getRandomItem(choice);
-      // asynchronouly behavior, can be ignored, as long this function generate random data
       items[index].subItems.push(item);
-      items.forEach(item => item.subItems.push(this.getRandomItem(choice)));
     }
+
+    item["name"] = this.getRandomName(choice);
+    item["subItems"] = this.getRandomItem(choice);
     additionalItems.push(item);
 
-    if (limit < 4) {
-      this.buildSubItems(limit, items, additionalItems, choice);
+    if (limit < 15) {
+      // additionalItems and items in changed position to get some mix
+      this.buildSubItems(limit, additionalItems, items, choice);
     }
-    return items;
+    return returnedItems;
   }
 
+  // helper functions can be exported in a separatly helper file
   private getRandomName(choice) {
     return choice == "persons" ? this.chance.name() : this.chance.animal();
   }
