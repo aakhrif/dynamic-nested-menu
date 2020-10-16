@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
 import Chance from "chance";
 import { BehaviorSubject } from "rxjs";
+// first runs tested with json data
 import data from "./data.json";
 import { MenuItem } from "./nav-item";
 
 @Injectable()
 export class ItemsService {
   private _selectedValue = new BehaviorSubject<string>("");
-  private _menuItems = new BehaviorSubject<any[]>([]);
+  private _menuItems = new BehaviorSubject<MenuItem[]>([]);
   private chance: Chance.Chance;
 
   constructor() {
@@ -39,7 +40,7 @@ export class ItemsService {
     if (rdm === 0 && limit <= 2) {
       rdm = 1;
     }
-    if (limit < 4) {
+    if (limit < 3) {
       if (0 !== rdm) {
         let item: [] = [];
         item["name"] =
@@ -55,32 +56,25 @@ export class ItemsService {
   private buildSubItems(
     limit: number,
     items: any[],
-    currentItems: any[],
+    additionalItems: any[],
     choice: string
   ): any[] {
     // foreach item build randomly subitems
-    //debugger;
-    items = items.concat(currentItems);
+    items = items.concat(additionalItems);
     limit++;
-    console.log(limit);
-    debugger;
+    let item: [] = [];
     for (var index = 0; index < items.length; index++) {
-      items[index].subItems.push(this.getRandomItem(choice));
-      for (var i = 0; i < items[index].subItems.length; i++) {
-        console.log(items[index].subItems[i]);
-        debugger;
-        items[index].subItems[i].push(this.getRandomItem(choice));
-      }
+      item["name"] = this.getRandomName(choice);
+      item["subItems"] = this.getRandomItem(choice);
+      // asynchronouly behavior, can be ignored, as long this function generate random data
+      items[index].subItems.push(item);
+      items.forEach(item => item.subItems.push(this.getRandomItem(choice)));
     }
-    currentItems = items;
-    console.log(currentItems);
-    //items.forEach(item => item.subItems.push(this.getRandomItem(choice)));
-    console.log(items);
+    additionalItems.push(item);
 
-    if (limit < 5) {
-      this.buildSubItems(limit, items, currentItems, choice);
+    if (limit < 4) {
+      this.buildSubItems(limit, items, additionalItems, choice);
     }
-    //console.log(items);
     return items;
   }
 
