@@ -3,7 +3,7 @@ import Chance from "chance";
 import { BehaviorSubject } from "rxjs";
 // first runs tested with json data
 import data from "./data.json";
-import { MenuItem } from "./nav-item";
+import { MenuItem } from "./menu-item";
 
 @Injectable()
 export class ItemsService {

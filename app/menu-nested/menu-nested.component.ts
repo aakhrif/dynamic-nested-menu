@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ItemsService } from "../items.service";
-import { MenuItem } from "../nav-item";
+import { MenuItem } from "../menu-item";
 
 @Component({
   selector: "app-menu-nested",
