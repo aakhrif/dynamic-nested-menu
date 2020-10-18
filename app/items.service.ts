@@ -11,6 +11,10 @@ export class ItemsService {
   private _menuItems = new BehaviorSubject<MenuItem[]>([]);
   private chance: Chance.Chance;
 
+  readonly topLevelIterationsLimit: number = 4;
+  readonly subIterationsLimit: number = 15;
+  readonly minTopLevelItems: number = 2;
+
   constructor() {
     this.chance = new Chance();
   }
@@ -37,10 +41,10 @@ export class ItemsService {
     var rdm = this.getRandomInt(0, 5);
     limit++;
     // continue to get at least 2 element
-    if (rdm === 0 && limit <= 2) {
+    if (rdm === 0 && limit <= this.minTopLevelItems) {
       rdm = 1;
     }
-    if (limit < 4) {
+    if (limit < this.topLevelIterationsLimit) {
       if (0 !== rdm) {
         let item: [] = [];
         item["name"] =
@@ -81,7 +85,7 @@ export class ItemsService {
     item["subItems"] = this.getRandomItem(choice);
     additionalItems.push(item);
 
-    if (limit < 15) {
+    if (limit < this.subIterationsLimit) {
       // additionalItems and items in changed position to get some mix
       this.buildSubItems(limit, additionalItems, items, choice);
     }
@@ -89,18 +93,18 @@ export class ItemsService {
   }
 
   // helper functions can be exported in a separatly helper file
-  private getRandomName(choice) {
+  private getRandomName(choice: string) {
     return choice == "persons" ? this.chance.name() : this.chance.animal();
   }
 
-  private getRandomItem(choice) {
+  private getRandomItem(choice: string) {
     let item: [] = [];
     item["name"] = this.getRandomName(choice);
     item["subItems"] = [];
     return item;
   }
 
-  private getRandomInt(min, max) {
+  private getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
